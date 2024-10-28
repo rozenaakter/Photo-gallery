@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Image Gallery</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            flex-direction: column;
+        }
+
+        .gallery {
+            position: relative;
+            width: 600px;
+            height: 500px;
+            overflow: hidden;
+            border: 2px solid #333;
+            border-radius: 50%;
+        }
+
+        .gallery img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1s ease;
+            opacity: 0;
+        }
+
+        .gallery img.active {
+            opacity: 1;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .controls button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gallery">
+        <img src="./photo-1727409163652-9bf763974b52.avif" class="active" alt="Image 1">
+        <img src="./photo-1727447868578-1298b9a5c121.avif" alt="Image 2">
+        <img src="photo-1727461567487-575ec98777fc.avif" alt="Image 3">
+        <img src="./photo-1727447868578-1298b9a5c121.avif" alt="Image 4">
+    </div>
+
+    <div class="controls">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
+    </div>
+
+    <script>
+        const images = document.querySelectorAll('.gallery img');
+        let currentIndex = 0;
+        const totalImages = images.length;
+
+        function showImage(index) {
+            // Hide all images
+            images.forEach(img => img.classList.remove('active'));
+            
+            // Show the current image
+            images[index].classList.add('active');
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % totalImages;
+            showImage(currentIndex);
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+            showImage(currentIndex);
+        }
+
+        document.getElementById('next').addEventListener('click', nextImage);
+        document.getElementById('prev').addEventListener('click', prevImage);
+
+        // Auto rotate images every 3 seconds
+        setInterval(nextImage, 3000);
+    </script>
+</body>
+</html>
